@@ -126,7 +126,8 @@ Completed:
 - Equipment Registry
 - Failure Case Database Structure
 - CNC Failure Cases
-
+- Decision Log
+- AI Working Rules
 
 Next:
 
