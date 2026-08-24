@@ -26,6 +26,7 @@ REQUIRED_FIELDS = {
     "tags",
 }
 REGISTERED_EQUIPMENT = {"CNC-001", "ROBOT-001", "COMP-001", "INSPECT-001", "LASER-001"}
+TEXT_FIELDS = ("error_code", "symptom", "root_cause", "solution", "verification_result")
 
 
 def load_cases(path: Path) -> list[dict]:
@@ -65,24 +66,48 @@ def validate_cases(cases: list[dict]) -> list[str]:
         if case.get("synthetic") is not True:
             errors.append(f"{label}: synthetic must be true")
 
+        for field in TEXT_FIELDS:
+            value = case.get(field)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"{label}: {field} must be a non-empty string")
+
+        if isinstance(case_id, str) and not re.fullmatch(r"SYN-[A-Z]+-[0-9]{3}", case_id):
+            errors.append(f"{label}: case_id must match SYN-<TYPE>-<NNN>")
+
+        error_code = case.get("error_code")
+        if isinstance(error_code, str) and not re.fullmatch(r"SIM-[A-Z][0-9]{3}", error_code):
+            errors.append(f"{label}: error_code must match SIM-<LETTER><NNN>")
+
         equipment = case.get("equipment")
         if not isinstance(equipment, dict) or equipment.get("id") not in REGISTERED_EQUIPMENT:
             errors.append(f"{label}: equipment.id is not in Equipment_Registry.md")
+        elif not isinstance(equipment.get("type"), str) or not equipment["type"].strip():
+            errors.append(f"{label}: equipment.type must be a non-empty string")
 
         for field in ("troubleshooting_steps", "safety_notes", "tags"):
             value = case.get(field)
             if not isinstance(value, list) or not value or not all(isinstance(item, str) and item for item in value):
                 errors.append(f"{label}: {field} must be a non-empty string list")
 
+        for field in ("troubleshooting_steps", "safety_notes"):
+            value = case.get(field)
+            if isinstance(value, list) and len(value) < 2:
+                errors.append(f"{label}: {field} must contain at least two items")
+
         source = case.get("source")
         if not isinstance(source, dict) or source.get("type") != "synthetic_scenario":
             errors.append(f"{label}: source.type must be synthetic_scenario")
-        elif "not derived from a customer or OEM record" not in source.get("provenance_note", ""):
-            errors.append(f"{label}: source must disclose synthetic provenance")
+        else:
+            if source.get("reference") != "Project Forge synthetic dataset v1":
+                errors.append(f"{label}: source.reference must identify dataset v1")
+            if "not derived from a customer or OEM record" not in source.get("provenance_note", ""):
+                errors.append(f"{label}: source must disclose synthetic provenance")
 
         review = case.get("review")
         if not isinstance(review, dict) or review.get("status") != "demo_only":
             errors.append(f"{label}: review.status must be demo_only")
+        elif review.get("reviewed_by") is not None:
+            errors.append(f"{label}: reviewed_by must remain null while status is demo_only")
 
     covered = {
         case.get("equipment", {}).get("id")
@@ -159,4 +184,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

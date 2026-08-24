@@ -22,6 +22,7 @@ site procedure, and safety requirements.
 ## Files
 
 - `data/synthetic_failure_cases_v1.jsonl` — one JSON object per failure case
+- `schema/failure_case.schema.json` — machine-readable JSON Schema contract
 - `src/knowledge_demo.py` — validator and deterministic keyword retriever
 - `tests/test_knowledge_demo.py` — schema, coverage, and retrieval tests
 
@@ -62,6 +63,7 @@ generate a diagnosis or claim production-grade semantic retrieval.
 ## Acceptance criteria
 
 - The JSONL file parses and every record satisfies the required contract.
+- The documented JSON Schema stays synchronized with the executable validator.
 - Case IDs are unique and all records are marked synthetic.
 - All five IDs in `Equipment_Registry.md` have at least one case.
 - A known symptom query retrieves the intended case and exposes its citation ID.
@@ -73,4 +75,3 @@ generate a diagnosis or claim production-grade semantic retrieval.
 - Scenarios have not been reviewed by OEM or domain experts.
 - Retrieval is deterministic token matching, not embeddings or RAG.
 - The English-only sample does not yet validate multilingual behavior.
-
