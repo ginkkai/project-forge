@@ -25,6 +25,7 @@ site procedure, and safety requirements.
 - `schema/failure_case.schema.json` — machine-readable JSON Schema contract
 - `src/knowledge_demo.py` — validator and deterministic keyword retriever
 - `tests/test_knowledge_demo.py` — schema, coverage, and retrieval tests
+- `.github/workflows/synthetic-dataset-checks.yml` — pull-request validation in GitHub Actions
 
 ## Record contract
 
@@ -60,6 +61,13 @@ python -m unittest discover -s tests -v
 The search command prints the matching case ID as a source citation. It does not
 generate a diagnosis or claim production-grade semantic retrieval.
 
+## Automated verification
+
+GitHub Actions runs the validator and all unit tests whenever this prototype or
+its workflow changes in a pull request. The workflow uses Python 3.11 and only
+standard-library dependencies, so its result is independently reproducible
+without credentials or external services.
+
 ## Acceptance criteria
 
 - The JSONL file parses and every record satisfies the required contract.
@@ -68,6 +76,7 @@ generate a diagnosis or claim production-grade semantic retrieval.
 - All five IDs in `Equipment_Registry.md` have at least one case.
 - A known symptom query retrieves the intended case and exposes its citation ID.
 - Automated tests pass without third-party dependencies.
+- The pull request receives a successful `Synthetic dataset checks` workflow run.
 
 ## Known limitations
 
