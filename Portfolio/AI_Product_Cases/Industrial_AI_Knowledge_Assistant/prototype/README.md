@@ -6,7 +6,7 @@ Industrial AI Knowledge Assistant prototype.
 It turns the repository's data dictionary and equipment registry into one
 verifiable loop:
 
-`synthetic cases -> schema validation -> keyword retrieval -> cited result`
+`synthetic cases -> schema validation -> keyword retrieval -> cited result -> measured top-1 accuracy`
 
 ## Scope
 
@@ -22,8 +22,10 @@ site procedure, and safety requirements.
 ## Files
 
 - `data/synthetic_failure_cases_v1.jsonl` — one JSON object per failure case
+- `data/retrieval_eval_v1.jsonl` — versioned queries and expected case IDs
 - `schema/failure_case.schema.json` — machine-readable JSON Schema contract
 - `src/knowledge_demo.py` — validator and deterministic keyword retriever
+- `src/evaluate_retrieval.py` — reproducible top-1 retrieval evaluation
 - `tests/test_knowledge_demo.py` — schema, coverage, and retrieval tests
 - `.github/workflows/synthetic-dataset-checks.yml` — pull-request validation in GitHub Actions
 
@@ -55,11 +57,24 @@ From this directory:
 ```bash
 python src/knowledge_demo.py validate data/synthetic_failure_cases_v1.jsonl
 python src/knowledge_demo.py search data/synthetic_failure_cases_v1.jsonl "coolant pressure low"
+python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_v1.jsonl
 python -m unittest discover -s tests -v
 ```
 
 The search command prints the matching case ID as a source citation. It does not
 generate a diagnosis or claim production-grade semantic retrieval.
+
+## Retrieval evaluation
+
+The versioned evaluation fixture contains one representative query for each of
+the 10 synthetic cases. The evaluator reports top-1 accuracy and exits non-zero
+when any expected case is not ranked first. On the v1 fixture, the current
+deterministic retriever scores **10/10 (100%) top-1 accuracy**.
+
+This is a regression baseline for a deliberately small, synthetic, English-only
+fixture. It is not evidence of production accuracy, semantic generalization, or
+performance on real technician language. Future retrieval methods should be
+compared against the same fixture and then tested on broader reviewed queries.
 
 ## Automated verification
 
@@ -75,6 +90,7 @@ without credentials or external services.
 - Case IDs are unique and all records are marked synthetic.
 - All five IDs in `Equipment_Registry.md` have at least one case.
 - A known symptom query retrieves the intended case and exposes its citation ID.
+- The evaluation fixture covers every v1 case and reports 100% top-1 accuracy.
 - Automated tests pass without third-party dependencies.
 - The pull request receives a successful `Synthetic dataset checks` workflow run.
 
@@ -83,4 +99,5 @@ without credentials or external services.
 - 10 of the 50 failure cases targeted by Prototype 0.1 are represented.
 - Scenarios have not been reviewed by OEM or domain experts.
 - Retrieval is deterministic token matching, not embeddings or RAG.
-- The English-only sample does not yet validate multilingual behavior.
+- The 10-query evaluation is curated from the same synthetic records and does not test paraphrase robustness.
+- The English-only sample does not validate multilingual behavior.
