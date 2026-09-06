@@ -1,0 +1,34 @@
+name: Synthetic dataset checks
+
+on:
+  pull_request:
+    paths:
+      - "Portfolio/AI_Product_Cases/Industrial_AI_Knowledge_Assistant/prototype/**"
+      - ".github/workflows/synthetic-dataset-checks.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "Portfolio/AI_Product_Cases/Industrial_AI_Knowledge_Assistant/prototype/**"
+      - ".github/workflows/synthetic-dataset-checks.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Portfolio/AI_Product_Cases/Industrial_AI_Knowledge_Assistant/prototype
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate synthetic dataset
+        run: python src/knowledge_demo.py validate data/synthetic_failure_cases_v1.jsonl
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
