@@ -1,0 +1,10 @@
+{"query":"machining center overheats halfway through long runs","expected_case_id":"SYN-CNC-001","category":"technician_paraphrase"}
+{"query":"coolant stream fades and pump sounds aerated","expected_case_id":"SYN-CNC-002","category":"technician_paraphrase"}
+{"query":"new end effector misses the taught pick point","expected_case_id":"SYN-ROBOT-001","category":"technician_paraphrase"}
+{"query":"cell link cuts out at random","expected_case_id":"SYN-ROBOT-002","category":"technician_paraphrase"}
+{"query":"plant header cannot reach target psi and demand is high","expected_case_id":"SYN-COMP-001","category":"technician_paraphrase"}
+{"query":"airend keeps running hot although load is steady","expected_case_id":"SYN-COMP-002","category":"technician_paraphrase"}
+{"query":"same feature gives a different result every time","expected_case_id":"SYN-INSPECT-001","category":"technician_paraphrase"}
+{"query":"calibration rejected after reboot with a longer probe tip","expected_case_id":"SYN-INSPECT-002","category":"technician_paraphrase"}
+{"query":"etched code is pale after many parts","expected_case_id":"SYN-LASER-001","category":"technician_paraphrase"}
+{"query":"artwork moved after swapping the nest","expected_case_id":"SYN-LASER-002","category":"technician_paraphrase"}

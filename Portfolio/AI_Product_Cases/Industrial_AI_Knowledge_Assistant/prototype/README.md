@@ -23,6 +23,7 @@ site procedure, and safety requirements.
 
 - `data/synthetic_failure_cases_v1.jsonl` — one JSON object per failure case
 - `data/retrieval_eval_v1.jsonl` — versioned queries and expected case IDs
+- `data/retrieval_eval_paraphrase_v1.jsonl` — technician-style paraphrase stress set
 - `schema/failure_case.schema.json` — machine-readable JSON Schema contract
 - `src/knowledge_demo.py` — validator and deterministic keyword retriever
 - `src/evaluate_retrieval.py` — reproducible top-1 retrieval evaluation
@@ -58,6 +59,7 @@ From this directory:
 python src/knowledge_demo.py validate data/synthetic_failure_cases_v1.jsonl
 python src/knowledge_demo.py search data/synthetic_failure_cases_v1.jsonl "coolant pressure low"
 python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_v1.jsonl
+python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_paraphrase_v1.jsonl --minimum-accuracy 0.6
 python -m unittest discover -s tests -v
 ```
 
@@ -76,6 +78,17 @@ fixture. It is not evidence of production accuracy, semantic generalization, or
 performance on real technician language. Future retrieval methods should be
 compared against the same fixture and then tested on broader reviewed queries.
 
+### Paraphrase stress baseline
+
+A second fixture expresses the same 10 scenarios with technician-style wording
+that deliberately avoids many source-record terms. The current keyword retriever
+scores **6/10 (60%) top-1 accuracy**. The four misses are versioned as evidence,
+not hidden or rewritten to make the metric look better.
+
+The CLI accepts `--minimum-accuracy` so CI can prevent regression below the
+recorded 60% baseline while future retrieval methods improve against the same
+queries. This threshold is a regression floor, not a production-readiness target.
+
 ## Automated verification
 
 GitHub Actions runs the validator and all unit tests whenever this prototype or
@@ -91,6 +104,7 @@ without credentials or external services.
 - All five IDs in `Equipment_Registry.md` have at least one case.
 - A known symptom query retrieves the intended case and exposes its citation ID.
 - The evaluation fixture covers every v1 case and reports 100% top-1 accuracy.
+- The paraphrase fixture covers every v1 case and reproduces the documented 60% baseline.
 - Automated tests pass without third-party dependencies.
 - The pull request receives a successful `Synthetic dataset checks` workflow run.
 
@@ -99,5 +113,6 @@ without credentials or external services.
 - 10 of the 50 failure cases targeted by Prototype 0.1 are represented.
 - Scenarios have not been reviewed by OEM or domain experts.
 - Retrieval is deterministic token matching, not embeddings or RAG.
-- The 10-query evaluation is curated from the same synthetic records and does not test paraphrase robustness.
+- The paraphrase stress set is still authored from synthetic records and has not been reviewed by technicians.
+- Current paraphrase top-1 accuracy is only 60%, confirming weak lexical generalization.
 - The English-only sample does not validate multilingual behavior.

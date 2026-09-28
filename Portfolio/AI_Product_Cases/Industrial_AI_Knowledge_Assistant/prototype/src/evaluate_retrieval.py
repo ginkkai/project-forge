@@ -57,7 +57,16 @@ def main() -> int:
     parser.add_argument("dataset", type=Path)
     parser.add_argument("evaluation_set", type=Path)
     parser.add_argument("--json", action="store_true", help="print machine-readable results")
+    parser.add_argument(
+        "--minimum-accuracy",
+        type=float,
+        default=1.0,
+        help="minimum accepted top-1 accuracy from 0.0 to 1.0 (default: 1.0)",
+    )
     args = parser.parse_args()
+
+    if not 0.0 <= args.minimum_accuracy <= 1.0:
+        parser.error("--minimum-accuracy must be between 0.0 and 1.0")
 
     try:
         cases = load_cases(args.dataset)
@@ -76,7 +85,7 @@ def main() -> int:
             status = "PASS" if row["passed"] else "FAIL"
             print(f"{status} | {row['query']} | expected={row['expected_case_id']} | actual={row['actual_case_id']}")
         print(f"TOP-1 ACCURACY: {report['passed']}/{report['total']} ({report['accuracy']:.0%})")
-    return 0 if report["passed"] == report["total"] else 1
+    return 0 if report["accuracy"] >= args.minimum_accuracy else 1
 
 
 if __name__ == "__main__":

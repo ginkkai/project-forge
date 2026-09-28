@@ -15,6 +15,7 @@ from knowledge_demo import REGISTERED_EQUIPMENT, load_cases, search_cases, valid
 DATASET = ROOT / "data" / "synthetic_failure_cases_v1.jsonl"
 SCHEMA = ROOT / "schema" / "failure_case.schema.json"
 EVALUATION_SET = ROOT / "data" / "retrieval_eval_v1.jsonl"
+PARAPHRASE_EVALUATION_SET = ROOT / "data" / "retrieval_eval_paraphrase_v1.jsonl"
 
 
 class SyntheticDatasetTest(unittest.TestCase):
@@ -22,6 +23,7 @@ class SyntheticDatasetTest(unittest.TestCase):
     def setUpClass(cls):
         cls.cases = load_cases(DATASET)
         cls.evaluations = load_evaluations(EVALUATION_SET)
+        cls.paraphrase_evaluations = load_evaluations(PARAPHRASE_EVALUATION_SET)
 
     def test_dataset_contract_is_valid(self):
         self.assertEqual(validate_cases(self.cases), [])
@@ -62,6 +64,24 @@ class SyntheticDatasetTest(unittest.TestCase):
         self.assertEqual(report["metric"], "top_1_accuracy")
         self.assertEqual(report["total"], 10)
         self.assertEqual(report["accuracy"], 1.0)
+
+    def test_paraphrase_evaluation_covers_every_case(self):
+        expected_ids = {item["expected_case_id"] for item in self.paraphrase_evaluations}
+        self.assertEqual(expected_ids, {case["case_id"] for case in self.cases})
+
+    def test_paraphrase_stress_baseline_is_reproducible(self):
+        report = evaluate(self.cases, self.paraphrase_evaluations)
+        failed_ids = {
+            row["expected_case_id"]
+            for row in report["results"]
+            if not row["passed"]
+        }
+        self.assertEqual(report["total"], 10)
+        self.assertEqual(report["accuracy"], 0.6)
+        self.assertEqual(
+            failed_ids,
+            {"SYN-COMP-001", "SYN-INSPECT-002", "SYN-LASER-001", "SYN-LASER-002"},
+        )
 
     def test_validator_rejects_empty_core_text(self):
         broken = copy.deepcopy(self.cases)
