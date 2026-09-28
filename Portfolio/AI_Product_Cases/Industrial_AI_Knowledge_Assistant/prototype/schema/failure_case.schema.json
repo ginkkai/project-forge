@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ginkkai/project-forge/schemas/failure_case.schema.json",
+  "title": "Project Forge Synthetic Industrial Failure Case",
+  "description": "Public-safe demonstration contract. Records are synthetic and are not production maintenance guidance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "synthetic",
+    "equipment",
+    "error_code",
+    "symptom",
+    "root_cause",
+    "troubleshooting_steps",
+    "solution",
+    "verification_result",
+    "safety_notes",
+    "source",
+    "review",
+    "tags"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^SYN-[A-Z]+-[0-9]{3}$"},
+    "synthetic": {"const": true},
+    "equipment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": ["CNC-001", "ROBOT-001", "COMP-001", "INSPECT-001", "LASER-001"]
+        },
+        "type": {"type": "string", "minLength": 1}
+      }
+    },
+    "error_code": {"type": "string", "pattern": "^SIM-[A-Z][0-9]{3}$"},
+    "symptom": {"type": "string", "minLength": 1},
+    "root_cause": {"type": "string", "minLength": 1},
+    "troubleshooting_steps": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "solution": {"type": "string", "minLength": 1},
+    "verification_result": {"type": "string", "minLength": 1},
+    "safety_notes": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "reference", "provenance_note"],
+      "properties": {
+        "type": {"const": "synthetic_scenario"},
+        "reference": {"const": "Project Forge synthetic dataset v1"},
+        "provenance_note": {"type": "string", "minLength": 1}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewed_by"],
+      "properties": {
+        "status": {"const": "demo_only"},
+        "reviewed_by": {"type": "null"}
+      }
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}
