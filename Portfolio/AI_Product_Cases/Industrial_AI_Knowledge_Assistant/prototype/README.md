@@ -24,6 +24,7 @@ site procedure, and safety requirements.
 - `data/synthetic_failure_cases_v1.jsonl` — one JSON object per failure case
 - `data/retrieval_eval_v1.jsonl` — versioned queries and expected case IDs
 - `data/retrieval_eval_paraphrase_v1.jsonl` — technician-style paraphrase stress set
+- `RETRIEVAL_EVALUATION.md` — metric interpretation, failed cases, and decision gates
 - `schema/failure_case.schema.json` — machine-readable JSON Schema contract
 - `src/knowledge_demo.py` — validator and deterministic keyword retriever
 - `src/evaluate_retrieval.py` — reproducible top-1 retrieval evaluation

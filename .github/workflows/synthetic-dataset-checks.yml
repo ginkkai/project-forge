@@ -30,5 +30,9 @@ jobs:
           python-version: "3.11"
       - name: Validate synthetic dataset
         run: python src/knowledge_demo.py validate data/synthetic_failure_cases_v1.jsonl
+      - name: Evaluate exact-term retrieval
+        run: python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_v1.jsonl
+      - name: Evaluate paraphrase stress baseline
+        run: python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_paraphrase_v1.jsonl --minimum-accuracy 0.6
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
