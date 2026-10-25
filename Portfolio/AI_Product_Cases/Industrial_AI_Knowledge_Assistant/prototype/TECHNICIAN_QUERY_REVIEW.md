@@ -49,3 +49,19 @@ python src/validate_technician_review.py \
 A passing completed review means only that every query received a traceable decision and
 that the frozen fixture was not changed. It does not imply agreement, retrieval quality,
 or production readiness.
+
+## Privacy-safe summary
+
+After the completed CSV passes the strict gate, generate a machine-readable review summary:
+
+```bash
+python src/summarize_technician_review.py \\
+  data/technician_query_review_v1.csv \\
+  --output technician_query_review_summary_v1.json
+```
+
+The summary reports yes/no/uncertain counts and rates for language plausibility and
+expected-case correctness, plus only the IDs and corrections for flagged queries. It
+does not copy accepted query text and does not include reviewer names, email addresses,
+employers, sites, customers, or proprietary incident data. An incomplete review exits
+non-zero instead of producing partial evidence.
