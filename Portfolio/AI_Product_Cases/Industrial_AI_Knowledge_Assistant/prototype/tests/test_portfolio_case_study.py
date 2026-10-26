@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 
 
-CASE_STUDY = Path(__file__).with_name("PORTFOLIO_CASE_STUDY.md")
+CASE_STUDY = Path(__file__).resolve().parents[1] / "PORTFOLIO_CASE_STUDY.md"
 
 
 class PortfolioCaseStudyTest(unittest.TestCase):
