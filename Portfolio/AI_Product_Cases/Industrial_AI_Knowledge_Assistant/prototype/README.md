@@ -26,6 +26,7 @@ site procedure, and safety requirements.
 - `data/retrieval_eval_paraphrase_v1.jsonl` — technician-style paraphrase stress set
 - `data/technician_query_review_v1.csv` — controlled annotation template for domain review
 - `RETRIEVAL_EVALUATION.md` — metric interpretation, failed cases, and decision gates
+- `PORTFOLIO_CASE_STUDY.md` — public-facing product case, evidence, trade-offs, and claim boundaries
 - `TECHNICIAN_QUERY_REVIEW.md` — reviewer instructions, privacy boundary, and completion gate
 - `schema/failure_case.schema.json` — machine-readable JSON Schema contract
 - `src/knowledge_demo.py` — validator and deterministic keyword retriever
@@ -35,6 +36,7 @@ site procedure, and safety requirements.
 - `tests/test_knowledge_demo.py` — schema, coverage, and retrieval tests
 - `tests/test_technician_review.py` — review-contract and anti-drift tests
 - `tests/test_review_summary.py` — summary, flag preservation, completeness, and privacy tests
+- `tests/test_portfolio_case_study.py` — guards published metrics, reproduction paths, and claim boundaries
 - `.github/workflows/synthetic-dataset-checks.yml` — pull-request validation in GitHub Actions
 
 ## Record contract
