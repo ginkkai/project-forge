@@ -1,0 +1,10 @@
+{"query":"spindle temperature clogged filter","expected_case_id":"SYN-CNC-001","category":"5-Axis CNC Machining Center"}
+{"query":"low coolant pressure pump inlet","expected_case_id":"SYN-CNC-002","category":"5-Axis CNC Machining Center"}
+{"query":"robot position deviation gripper calibration","expected_case_id":"SYN-ROBOT-001","category":"Industrial Robot"}
+{"query":"robot communication ethernet connector","expected_case_id":"SYN-ROBOT-002","category":"Industrial Robot"}
+{"query":"compressor low pressure air leak","expected_case_id":"SYN-COMP-001","category":"Industrial Air Compressor"}
+{"query":"compressor high temperature ventilation airflow","expected_case_id":"SYN-COMP-002","category":"Industrial Air Compressor"}
+{"query":"measurement variation repeatability stylus","expected_case_id":"SYN-INSPECT-001","category":"Coordinate Measuring Machine"}
+{"query":"probe qualification stylus length","expected_case_id":"SYN-INSPECT-002","category":"Coordinate Measuring Machine"}
+{"query":"weak marking contrast protective window","expected_case_id":"SYN-LASER-001","category":"Laser Marking Machine"}
+{"query":"marking position shift fixture datum offset","expected_case_id":"SYN-LASER-002","category":"Laser Marking Machine"}
