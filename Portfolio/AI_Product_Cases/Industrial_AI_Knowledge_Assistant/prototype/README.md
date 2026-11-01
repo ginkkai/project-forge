@@ -33,10 +33,12 @@ site procedure, and safety requirements.
 - `src/evaluate_retrieval.py` — reproducible top-1 retrieval evaluation
 - `src/validate_technician_review.py` — validates review data against the frozen fixture
 - `src/summarize_technician_review.py` — converts a completed review into privacy-safe aggregate evidence
+- `src/generate_evidence_report.py` — emits one machine-readable snapshot of dataset, retrieval, and review status
 - `tests/test_knowledge_demo.py` — schema, coverage, and retrieval tests
 - `tests/test_technician_review.py` — review-contract and anti-drift tests
 - `tests/test_review_summary.py` — summary, flag preservation, completeness, and privacy tests
 - `tests/test_portfolio_case_study.py` — guards published metrics, reproduction paths, and claim boundaries
+- `tests/test_evidence_report.py` — guards evidence metrics, incomplete-review status, and privacy-safe output
 - `.github/workflows/synthetic-dataset-checks.yml` — pull-request validation in GitHub Actions
 
 ## Record contract
@@ -70,6 +72,7 @@ python src/knowledge_demo.py search data/synthetic_failure_cases_v1.jsonl "coola
 python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_v1.jsonl
 python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_paraphrase_v1.jsonl --minimum-accuracy 0.6
 python src/validate_technician_review.py data/technician_query_review_v1.csv data/retrieval_eval_paraphrase_v1.jsonl
+python src/generate_evidence_report.py
 # After all 10 review rows pass --require-complete:
 python src/summarize_technician_review.py data/technician_query_review_v1.csv --output technician_query_review_summary_v1.json
 python -m unittest discover -s tests -v
@@ -133,6 +136,7 @@ without credentials or external services.
 - The paraphrase fixture covers every v1 case and reproduces the documented 60% baseline.
 - The technician review template remains aligned to the frozen stress fixture.
 - A completed review can be summarized into privacy-safe aggregate evidence; incomplete reviews are rejected.
+- One command emits a privacy-safe JSON evidence snapshot without overstating the blank review.
 - Automated tests pass without third-party dependencies.
 - The pull request receives a successful `Synthetic dataset checks` workflow run.
 
@@ -145,3 +149,4 @@ without credentials or external services.
 - The technician review template is an uncompleted review instrument, not review evidence.
 - Current paraphrase top-1 accuracy is only 60%, confirming weak lexical generalization.
 - The English-only sample does not validate multilingual behavior.
+

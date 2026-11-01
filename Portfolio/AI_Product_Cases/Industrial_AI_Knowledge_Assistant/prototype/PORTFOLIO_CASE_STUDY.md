@@ -66,7 +66,7 @@ The package contains:
 | Dataset validation | 10 valid synthetic cases; 5/5 equipment IDs covered | Contract and declared coverage are reproducible |
 | Exact-term retrieval | 10/10 top-1 (100%) | Known lexical lookups are reproduced |
 | Paraphrase stress retrieval | 6/10 top-1 (60%) | Token overlap does not generalize reliably to reworded symptoms |
-| Automated verification | 25 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
+| Automated verification | 31 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
 | Technician review | Not completed | No claim of technician, OEM, or field validation is permitted |
 
 The four paraphrase misses involve compressor pressure, inspection-probe
@@ -105,6 +105,7 @@ python src/knowledge_demo.py validate data/synthetic_failure_cases_v1.jsonl
 python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_v1.jsonl
 python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_paraphrase_v1.jsonl --minimum-accuracy 0.6
 python src/validate_technician_review.py data/technician_query_review_v1.csv data/retrieval_eval_paraphrase_v1.jsonl
+python src/generate_evidence_report.py
 python -m unittest discover -s tests -v
 ```
 
@@ -122,4 +123,5 @@ against the unchanged fixture.
 - Which risks require better retrieval, and which require better source data?
 - What new evidence would justify moving from keyword retrieval to embeddings
   or RAG?
+
 
