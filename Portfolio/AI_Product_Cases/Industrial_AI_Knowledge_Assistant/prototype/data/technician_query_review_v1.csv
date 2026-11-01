@@ -1,0 +1,11 @@
+query_id,query,expected_case_id,plausible_technician_language,expected_case_correct,corrected_query,corrected_case_id,reviewer_role,review_date,notes
+QP-001,machining center overheats halfway through long runs,SYN-CNC-001,,,,,,,
+QP-002,coolant stream fades and pump sounds aerated,SYN-CNC-002,,,,,,,
+QP-003,new end effector misses the taught pick point,SYN-ROBOT-001,,,,,,,
+QP-004,cell link cuts out at random,SYN-ROBOT-002,,,,,,,
+QP-005,plant header cannot reach target psi and demand is high,SYN-COMP-001,,,,,,,
+QP-006,airend keeps running hot although load is steady,SYN-COMP-002,,,,,,,
+QP-007,same feature gives a different result every time,SYN-INSPECT-001,,,,,,,
+QP-008,calibration rejected after reboot with a longer probe tip,SYN-INSPECT-002,,,,,,,
+QP-009,etched code is pale after many parts,SYN-LASER-001,,,,,,,
+QP-010,artwork moved after swapping the nest,SYN-LASER-002,,,,,,,
