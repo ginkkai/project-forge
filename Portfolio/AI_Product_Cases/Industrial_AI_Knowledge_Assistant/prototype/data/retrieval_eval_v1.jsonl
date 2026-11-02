@@ -8,3 +8,9 @@
 {"query":"probe qualification stylus length","expected_case_id":"SYN-INSPECT-002","category":"Coordinate Measuring Machine"}
 {"query":"weak marking contrast protective window","expected_case_id":"SYN-LASER-001","category":"Laser Marking Machine"}
 {"query":"marking position shift fixture datum offset","expected_case_id":"SYN-LASER-002","category":"Laser Marking Machine"}
+{"query":"axis following error encoder connector rapid positioning","expected_case_id":"SYN-CNC-003","category":"5-Axis CNC Machining Center"}
+{"query":"robot gripper part present sensor signal","expected_case_id":"SYN-ROBOT-003","category":"Industrial Robot"}
+{"query":"compressor downstream moisture condensate drain","expected_case_id":"SYN-COMP-003","category":"Industrial Air Compressor"}
+{"query":"measurement shift reference artifact temperature stabilization","expected_case_id":"SYN-INSPECT-003","category":"Coordinate Measuring Machine"}
+{"query":"laser serial number repeats batch counter recipe","expected_case_id":"SYN-LASER-003","category":"Laser Marking Machine"}
+
