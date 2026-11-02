@@ -47,6 +47,13 @@ class SyntheticDatasetTest(unittest.TestCase):
         covered = {case["equipment"]["id"] for case in self.cases}
         self.assertEqual(covered, REGISTERED_EQUIPMENT)
 
+    def test_dataset_has_three_cases_per_equipment(self):
+        counts = {
+            equipment_id: sum(case["equipment"]["id"] == equipment_id for case in self.cases)
+            for equipment_id in REGISTERED_EQUIPMENT
+        }
+        self.assertEqual(set(counts.values()), {3})
+
     def test_known_coolant_query_returns_expected_citation(self):
         results = search_cases(self.cases, "coolant pressure low", limit=1)
         self.assertEqual(results[0][1]["case_id"], "SYN-CNC-002")
@@ -62,12 +69,13 @@ class SyntheticDatasetTest(unittest.TestCase):
     def test_retrieval_top_1_accuracy_is_100_percent_on_v1_fixture(self):
         report = evaluate(self.cases, self.evaluations)
         self.assertEqual(report["metric"], "top_1_accuracy")
-        self.assertEqual(report["total"], 10)
+        self.assertEqual(report["total"], 15)
         self.assertEqual(report["accuracy"], 1.0)
 
-    def test_paraphrase_evaluation_covers_every_case(self):
+    def test_paraphrase_evaluation_preserves_frozen_review_subset(self):
         expected_ids = {item["expected_case_id"] for item in self.paraphrase_evaluations}
-        self.assertEqual(expected_ids, {case["case_id"] for case in self.cases})
+        self.assertEqual(len(expected_ids), 10)
+        self.assertTrue(all(not case_id.endswith("003") for case_id in expected_ids))
 
     def test_paraphrase_stress_baseline_is_reproducible(self):
         report = evaluate(self.cases, self.paraphrase_evaluations)
@@ -96,3 +104,4 @@ class SyntheticDatasetTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

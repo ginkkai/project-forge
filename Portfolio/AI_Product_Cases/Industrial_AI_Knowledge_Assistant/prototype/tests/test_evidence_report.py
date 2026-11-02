@@ -14,7 +14,7 @@ from generate_evidence_report import build_evidence_report, main
 class EvidenceReportTest(unittest.TestCase):
     def test_report_reproduces_published_evidence(self):
         report = build_evidence_report(ROOT)
-        self.assertEqual(report["dataset"]["case_count"], 10)
+        self.assertEqual(report["dataset"]["case_count"], 15)
         self.assertEqual(report["dataset"]["equipment_ids_covered"], 5)
         self.assertEqual(report["retrieval"]["exact_term"]["top_1_accuracy"], 1.0)
         self.assertEqual(report["retrieval"]["paraphrase_stress"]["top_1_accuracy"], 0.6)
