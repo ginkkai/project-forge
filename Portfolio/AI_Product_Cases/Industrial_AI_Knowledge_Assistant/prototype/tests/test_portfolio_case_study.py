@@ -11,9 +11,14 @@ class PortfolioCaseStudyTest(unittest.TestCase):
         cls.text = CASE_STUDY.read_text(encoding="utf-8")
 
     def test_metrics_match_versioned_evidence(self):
-        self.assertIn("10/10 top-1 (100%)", self.text)
+        self.assertIn("15/15 top-1 (100%)", self.text)
         self.assertIn("6/10 top-1 (60%)", self.text)
-        self.assertIn("31 unit tests", self.text)
+        self.assertIn("34 unit tests", self.text)
+
+    def test_expansion_scope_does_not_overstate_human_review(self):
+        self.assertIn("15 cases", self.text)
+        self.assertIn("frozen original 10-query review", self.text)
+        self.assertIn("must not silently rewrite", self.text)
 
     def test_claim_boundaries_are_explicit(self):
         self.assertIn("Technician review | Not completed", self.text)

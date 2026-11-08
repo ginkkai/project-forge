@@ -10,7 +10,7 @@ verifiable loop:
 
 ## Scope
 
-- 10 synthetic failure cases across all 5 registered equipment types
+- 15 synthetic failure cases across all 5 registered equipment types (3 per type)
 - No customer, employee, site, or proprietary company data
 - Every record carries an explicit synthetic-data flag and provenance note
 - Standard-library-only Python; no API key or external service required
@@ -83,10 +83,10 @@ generate a diagnosis or claim production-grade semantic retrieval.
 
 ## Retrieval evaluation
 
-The versioned evaluation fixture contains one representative query for each of
-the 10 synthetic cases. The evaluator reports top-1 accuracy and exits non-zero
+The versioned exact-term evaluation fixture contains one representative query for each of
+the 15 synthetic cases. The evaluator reports top-1 accuracy and exits non-zero
 when any expected case is not ranked first. On the v1 fixture, the current
-deterministic retriever scores **10/10 (100%) top-1 accuracy**.
+deterministic retriever scores **15/15 (100%) top-1 accuracy**.
 
 This is a regression baseline for a deliberately small, synthetic, English-only
 fixture. It is not evidence of production accuracy, semantic generalization, or
@@ -95,7 +95,7 @@ compared against the same fixture and then tested on broader reviewed queries.
 
 ### Paraphrase stress baseline
 
-A second fixture expresses the same 10 scenarios with technician-style wording
+A frozen second fixture expresses the original 10 scenarios with technician-style wording
 that deliberately avoids many source-record terms. The current keyword retriever
 scores **6/10 (60%) top-1 accuracy**. The four misses are versioned as evidence,
 not hidden or rewritten to make the metric look better.
@@ -103,6 +103,11 @@ not hidden or rewritten to make the metric look better.
 The CLI accepts `--minimum-accuracy` so CI can prevent regression below the
 recorded 60% baseline while future retrieval methods improve against the same
 queries. This threshold is a regression floor, not a production-readiness target.
+
+The scope is intentionally asymmetric: the exact-term fixture covers all 15 dataset
+cases, while the technician-review fixture remains the frozen original 10-case subset.
+The evidence report exposes both counts separately so the 10 review candidates cannot
+be mistaken for coverage of all 15 cases.
 
 ### Technician review gate
 
@@ -133,7 +138,8 @@ without credentials or external services.
 - All five IDs in `Equipment_Registry.md` have at least one case.
 - A known symptom query retrieves the intended case and exposes its citation ID.
 - The evaluation fixture covers every v1 case and reports 100% top-1 accuracy.
-- The paraphrase fixture covers every v1 case and reproduces the documented 60% baseline.
+- The frozen paraphrase fixture preserves the original 10-case review subset and reproduces the documented 60% baseline.
+- The evidence snapshot distinguishes 15-case dataset coverage from the frozen 10-case human-review scope.
 - The technician review template remains aligned to the frozen stress fixture.
 - A completed review can be summarized into privacy-safe aggregate evidence; incomplete reviews are rejected.
 - One command emits a privacy-safe JSON evidence snapshot without overstating the blank review.
@@ -142,7 +148,7 @@ without credentials or external services.
 
 ## Known limitations
 
-- 10 of the 50 failure cases targeted by Prototype 0.1 are represented.
+- 15 of the 50 failure cases targeted by Prototype 0.1 are represented.
 - Scenarios have not been reviewed by OEM or domain experts.
 - Retrieval is deterministic token matching, not embeddings or RAG.
 - The paraphrase stress set is still authored from synthetic records and has not been reviewed by technicians.

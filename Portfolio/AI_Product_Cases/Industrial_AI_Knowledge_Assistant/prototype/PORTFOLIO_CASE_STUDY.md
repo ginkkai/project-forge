@@ -25,7 +25,7 @@ demo must answer more than “can it return text?” It must show:
 5. how a future method can be compared without rewriting the test.
 
 The initial PRD targets 50 failure cases and an eventual RAG experience. This
-iteration deliberately narrows the scope to 10 synthetic cases so the complete
+iteration deliberately narrows the scope to 15 synthetic cases so the complete
 evidence path can be executed and audited first.
 
 ## Product hypothesis
@@ -40,10 +40,10 @@ evidence path can be executed and audited first.
 
 The package contains:
 
-- 10 explicitly synthetic failure cases covering 5 registered equipment types;
+- 15 explicitly synthetic failure cases covering 5 registered equipment types;
 - a JSON Schema and executable validator;
 - deterministic token-overlap retrieval with case-ID citations;
-- a 10-query exact-term regression fixture;
+- a 15-query exact-term regression fixture;
 - a 10-query technician-style paraphrase stress fixture;
 - a review form, strict completion validator, and privacy-safe review summary;
 - standard-library tests and GitHub Actions verification.
@@ -63,10 +63,10 @@ The package contains:
 
 | Evidence | Result | Correct interpretation |
 |---|---:|---|
-| Dataset validation | 10 valid synthetic cases; 5/5 equipment IDs covered | Contract and declared coverage are reproducible |
-| Exact-term retrieval | 10/10 top-1 (100%) | Known lexical lookups are reproduced |
+| Dataset validation | 15 valid synthetic cases; 5/5 equipment IDs covered | Contract and declared coverage are reproducible |
+| Exact-term retrieval | 15/15 top-1 (100%) | Known lexical lookups are reproduced |
 | Paraphrase stress retrieval | 6/10 top-1 (60%) | Token overlap does not generalize reliably to reworded symptoms |
-| Automated verification | 31 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
+| Automated verification | 34 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
 | Technician review | Not completed | No claim of technician, OEM, or field validation is permitted |
 
 The four paraphrase misses involve compressor pressure, inspection-probe
@@ -74,6 +74,14 @@ qualification, laser-mark contrast, and laser-mark position. The failure pattern
 is consistent with missing synonym handling, generic-word collisions, tie
 breaking, and lack of equipment-aware or semantic retrieval. These are
 implementation-grounded hypotheses, not field-user findings.
+
+## Expansion and review-scope decision
+
+The dataset now contains 15 cases and the exact-term regression fixture covers all
+15. The technician-language fixture remains the frozen original 10-query review
+subset. This is deliberate: adding five synthetic cases must not silently rewrite
+the human-review instrument or imply that all 15 cases have been reviewed. The
+machine-readable evidence report publishes the two coverage counts separately.
 
 ## What the evidence changed
 

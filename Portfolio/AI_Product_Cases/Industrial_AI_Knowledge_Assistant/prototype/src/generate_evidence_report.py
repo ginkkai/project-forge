@@ -53,6 +53,12 @@ def build_evidence_report(root: Path) -> dict:
             "exact_term": _metric(exact),
             "paraphrase_stress": _metric(paraphrase),
         },
+        "coverage_scope": {
+            "dataset_cases": len(cases),
+            "exact_term_fixture_cases": exact["total"],
+            "frozen_domain_review_fixture_cases": len(review_rows),
+            "domain_review_scope": "original_10_case_subset",
+        },
         "domain_review": {
             "status": "completed" if review_complete else "not_completed",
             "annotated_rows": annotated_rows,
