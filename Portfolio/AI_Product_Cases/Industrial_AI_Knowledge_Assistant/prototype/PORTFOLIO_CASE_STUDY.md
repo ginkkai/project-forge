@@ -66,7 +66,7 @@ The package contains:
 | Dataset validation | 15 valid synthetic cases; 5/5 equipment IDs covered | Contract and declared coverage are reproducible |
 | Exact-term retrieval | 15/15 top-1 (100%) | Known lexical lookups are reproduced |
 | Paraphrase stress retrieval | 6/10 top-1 (60%) | Token overlap does not generalize reliably to reworded symptoms |
-| Automated verification | 32 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
+| Automated verification | 34 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
 | Technician review | Not completed | No claim of technician, OEM, or field validation is permitted |
 
 The four paraphrase misses involve compressor pressure, inspection-probe
@@ -74,6 +74,14 @@ qualification, laser-mark contrast, and laser-mark position. The failure pattern
 is consistent with missing synonym handling, generic-word collisions, tie
 breaking, and lack of equipment-aware or semantic retrieval. These are
 implementation-grounded hypotheses, not field-user findings.
+
+## Expansion and review-scope decision
+
+The dataset now contains 15 cases and the exact-term regression fixture covers all
+15. The technician-language fixture remains the frozen original 10-query review
+subset. This is deliberate: adding five synthetic cases must not silently rewrite
+the human-review instrument or imply that all 15 cases have been reviewed. The
+machine-readable evidence report publishes the two coverage counts separately.
 
 ## What the evidence changed
 

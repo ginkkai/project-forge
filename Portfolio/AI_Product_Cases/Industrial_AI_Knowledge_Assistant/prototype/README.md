@@ -104,6 +104,11 @@ The CLI accepts `--minimum-accuracy` so CI can prevent regression below the
 recorded 60% baseline while future retrieval methods improve against the same
 queries. This threshold is a regression floor, not a production-readiness target.
 
+The scope is intentionally asymmetric: the exact-term fixture covers all 15 dataset
+cases, while the technician-review fixture remains the frozen original 10-case subset.
+The evidence report exposes both counts separately so the 10 review candidates cannot
+be mistaken for coverage of all 15 cases.
+
 ### Technician review gate
 
 The review template lets a domain reviewer assess whether each stress query is
@@ -134,6 +139,7 @@ without credentials or external services.
 - A known symptom query retrieves the intended case and exposes its citation ID.
 - The evaluation fixture covers every v1 case and reports 100% top-1 accuracy.
 - The frozen paraphrase fixture preserves the original 10-case review subset and reproduces the documented 60% baseline.
+- The evidence snapshot distinguishes 15-case dataset coverage from the frozen 10-case human-review scope.
 - The technician review template remains aligned to the frozen stress fixture.
 - A completed review can be summarized into privacy-safe aggregate evidence; incomplete reviews are rejected.
 - One command emits a privacy-safe JSON evidence snapshot without overstating the blank review.

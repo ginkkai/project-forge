@@ -25,6 +25,14 @@ class EvidenceReportTest(unittest.TestCase):
         self.assertEqual(report["domain_review"]["annotated_rows"], 0)
         self.assertIn("No technician", report["domain_review"]["claim_boundary"])
 
+    def test_report_distinguishes_dataset_and_frozen_review_scope(self):
+        report = build_evidence_report(ROOT)
+        scope = report["coverage_scope"]
+        self.assertEqual(scope["dataset_cases"], 15)
+        self.assertEqual(scope["exact_term_fixture_cases"], 15)
+        self.assertEqual(scope["frozen_domain_review_fixture_cases"], 10)
+        self.assertEqual(scope["domain_review_scope"], "original_10_case_subset")
+
     def test_report_is_privacy_safe_and_machine_readable(self):
         report = build_evidence_report(ROOT)
         rendered = json.dumps(report)
