@@ -9,6 +9,8 @@ from pathlib import Path
 
 from evaluate_retrieval import evaluate, load_evaluations
 from knowledge_demo import REGISTERED_EQUIPMENT, load_cases, validate_cases
+from validate_new_case_review import load_review as load_new_case_review
+from validate_new_case_review import validate_review as validate_new_case_review
 from validate_technician_review import load_review, validate_review
 
 
@@ -26,6 +28,7 @@ def build_evidence_report(root: Path) -> dict:
     exact_fixture = data / "retrieval_eval_v1.jsonl"
     paraphrase_fixture = data / "retrieval_eval_paraphrase_v1.jsonl"
     review_csv = data / "technician_query_review_v1.csv"
+    new_case_review_csv = data / "new_case_domain_review_v1.csv"
 
     cases = load_cases(dataset)
     errors = validate_cases(cases)
@@ -40,6 +43,20 @@ def build_evidence_report(root: Path) -> dict:
         for row in review_rows
     )
     review_complete = not validate_review(review_csv, paraphrase_fixture, require_complete=True)
+    _, new_case_review_rows = load_new_case_review(new_case_review_csv)
+    new_case_annotated_rows = sum(
+        any(row[field].strip() for field in (
+            "technical_plausibility",
+            "root_cause_plausibility",
+            "troubleshooting_sequence_safe",
+            "safety_notes_adequate",
+            "correction_required",
+        ))
+        for row in new_case_review_rows
+    )
+    new_case_review_complete = not validate_new_case_review(
+        new_case_review_csv, dataset, require_complete=True
+    )
 
     return {
         "artifact_version": "synthetic-industrial-dataset-v1",
@@ -64,6 +81,13 @@ def build_evidence_report(root: Path) -> dict:
             "annotated_rows": annotated_rows,
             "total_rows": len(review_rows),
             "claim_boundary": "No technician, OEM, or field validation claim is permitted until the complete review gate passes.",
+        },
+        "new_case_domain_review": {
+            "status": "completed" if new_case_review_complete else "not_completed",
+            "annotated_rows": new_case_annotated_rows,
+            "total_rows": len(new_case_review_rows),
+            "content_locked_by_fingerprint": True,
+            "claim_boundary": "The five expansion cases remain synthetic and unreviewed until the strict domain-review gate passes.",
         },
         "safety_boundary": "Synthetic prototype evidence only; not maintenance guidance or production-accuracy evidence.",
     }
