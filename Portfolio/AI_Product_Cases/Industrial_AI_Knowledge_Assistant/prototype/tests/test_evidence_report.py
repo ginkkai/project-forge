@@ -33,6 +33,14 @@ class EvidenceReportTest(unittest.TestCase):
         self.assertEqual(scope["frozen_domain_review_fixture_cases"], 10)
         self.assertEqual(scope["domain_review_scope"], "original_10_case_subset")
 
+    def test_new_case_review_is_not_overstated(self):
+        report = build_evidence_report(ROOT)
+        review = report["new_case_domain_review"]
+        self.assertEqual(review["status"], "not_completed")
+        self.assertEqual(review["annotated_rows"], 0)
+        self.assertEqual(review["total_rows"], 5)
+        self.assertTrue(review["content_locked_by_fingerprint"])
+
     def test_report_is_privacy_safe_and_machine_readable(self):
         report = build_evidence_report(ROOT)
         rendered = json.dumps(report)

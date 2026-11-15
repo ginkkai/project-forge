@@ -1,0 +1,6 @@
+review_id,case_id,equipment_id,case_fingerprint,technical_plausibility,root_cause_plausibility,troubleshooting_sequence_safe,safety_notes_adequate,correction_required,reviewer_role,review_date,review_notes
+NC-001,SYN-CNC-003,CNC-001,03078be9ded4a0f60cbfc19fd691e959ed2122d7cced785c54de1820e28c136c,,,,,,,,
+NC-002,SYN-ROBOT-003,ROBOT-001,51fced8e154a4bb8b8a91665ba13431d745ed226102544fdd420e2b7b920a909,,,,,,,,
+NC-003,SYN-COMP-003,COMP-001,0dbea413e0bb89a25d866acde91da60ce4172ce4e5ffe9c7b5d3a07e57000c8e,,,,,,,,
+NC-004,SYN-INSPECT-003,INSPECT-001,0d7039e24e0c33826e9bf248417de7100087d0a8388c681696ada980a7abcd7c,,,,,,,,
+NC-005,SYN-LASER-003,LASER-001,8d11d4dcbb5ac45330097241c6d26ddff14ed9b22912e7337b025dcedf10800c,,,,,,,,
