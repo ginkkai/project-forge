@@ -51,6 +51,18 @@ python src/validate_new_case_review.py \
   --require-complete
 ```
 
+The reviewer-facing worksheet can be checked against the source records with:
+
+```bash
+python src/render_new_case_review.py \
+  data/synthetic_failure_cases_v1.jsonl \
+  data/new_case_domain_review_v1.csv \
+  --check NEW_CASE_REVIEW_WORKSHEET.md
+```
+
+Use the worksheet to read each complete case without switching between the CSV
+and JSONL. Record decisions in the CSV; the worksheet itself is a generated view.
+
 Until the strict gate passes and corrections are resolved, the five cases must
 remain labelled synthetic and unreviewed. A completed form supports only the
 reviewed fields; it does not establish OEM validation, production accuracy, or

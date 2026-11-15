@@ -30,16 +30,19 @@ site procedure, and safety requirements.
 - `PORTFOLIO_CASE_STUDY.md` — public-facing product case, evidence, trade-offs, and claim boundaries
 - `TECHNICIAN_QUERY_REVIEW.md` — reviewer instructions, privacy boundary, and completion gate
 - `NEW_CASE_DOMAIN_REVIEW.md` — review instructions and strict gate for the five expansion cases
+- `NEW_CASE_REVIEW_WORKSHEET.md` — generated reviewer-facing view of all five case details and blank decisions
 - `schema/failure_case.schema.json` — machine-readable JSON Schema contract
 - `src/knowledge_demo.py` — validator and deterministic keyword retriever
 - `src/evaluate_retrieval.py` — reproducible top-1 retrieval evaluation
 - `src/validate_technician_review.py` — validates review data against the frozen fixture
 - `src/validate_new_case_review.py` — validates the five-case review pack and detects case-content drift
+- `src/render_new_case_review.py` — renders and checks the reviewer-facing worksheet against source data
 - `src/summarize_technician_review.py` — converts a completed review into privacy-safe aggregate evidence
 - `src/generate_evidence_report.py` — emits one machine-readable snapshot of dataset, retrieval, and review status
 - `tests/test_knowledge_demo.py` — schema, coverage, and retrieval tests
 - `tests/test_technician_review.py` — review-contract and anti-drift tests
 - `tests/test_new_case_review.py` — expansion-case review, fingerprint, and completeness tests
+- `tests/test_new_case_review_worksheet.py` — worksheet freshness, coverage, blank-state, and privacy tests
 - `tests/test_review_summary.py` — summary, flag preservation, completeness, and privacy tests
 - `tests/test_portfolio_case_study.py` — guards published metrics, reproduction paths, and claim boundaries
 - `tests/test_evidence_report.py` — guards evidence metrics, incomplete-review status, and privacy-safe output
@@ -135,6 +138,10 @@ qualified reviewer to assess technical plausibility, root-cause plausibility,
 troubleshooting safety, and safety-note adequacy. The strict validator rejects
 incomplete decisions, missing role/date metadata, unrecorded corrections, and any
 case-content drift. Passing template validation does not mean the cases were reviewed.
+`NEW_CASE_REVIEW_WORKSHEET.md` places the symptom, proposed root cause,
+troubleshooting sequence, solution, verification result, safety notes, and blank
+decisions on one reviewer-facing page. It is generated from the JSONL and CSV;
+CI rejects it if either source changes without a matching worksheet update.
 
 ## Automated verification
 
@@ -154,6 +161,7 @@ without credentials or external services.
 - The frozen paraphrase fixture preserves the original 10-case review subset and reproduces the documented 60% baseline.
 - The evidence snapshot distinguishes 15-case dataset coverage from the frozen 10-case human-review scope.
 - The five expansion cases have a fingerprint-locked domain-review pack whose blank state is reported as incomplete.
+- The reviewer-facing worksheet is generated from source records and fails verification when stale.
 - The technician review template remains aligned to the frozen stress fixture.
 - A completed review can be summarized into privacy-safe aggregate evidence; incomplete reviews are rejected.
 - One command emits a privacy-safe JSON evidence snapshot without overstating the blank review.

@@ -66,7 +66,7 @@ The package contains:
 | Dataset validation | 15 valid synthetic cases; 5/5 equipment IDs covered | Contract and declared coverage are reproducible |
 | Exact-term retrieval | 15/15 top-1 (100%) | Known lexical lookups are reproduced |
 | Paraphrase stress retrieval | 6/10 top-1 (60%) | Token overlap does not generalize reliably to reworded symptoms |
-| Automated verification | 42 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
+| Automated verification | 47 unit tests plus GitHub Actions | Current behavior and safety boundaries are regression-tested |
 | Technician review | Not completed | No claim of technician, OEM, or field validation is permitted |
 | Five-case expansion review | Not completed; 0/5 annotated | Fingerprint-locked review readiness is not review evidence |
 
@@ -88,6 +88,9 @@ The five added cases also have a separate domain-review pack. A SHA-256
 fingerprint binds every review row to the case content, so later edits invalidate
 the review rather than silently inheriting an earlier approval. The pack is
 currently blank and the evidence report records it as `not_completed`.
+For review usability, a generated worksheet places the five complete scenarios
+and their blank decision fields in one readable document. A regression check
+ensures this reviewer view cannot drift from the JSONL and CSV sources.
 
 ## What the evidence changed
 
@@ -120,6 +123,7 @@ python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retr
 python src/evaluate_retrieval.py data/synthetic_failure_cases_v1.jsonl data/retrieval_eval_paraphrase_v1.jsonl --minimum-accuracy 0.6
 python src/validate_technician_review.py data/technician_query_review_v1.csv data/retrieval_eval_paraphrase_v1.jsonl
 python src/validate_new_case_review.py data/new_case_domain_review_v1.csv data/synthetic_failure_cases_v1.jsonl
+python src/render_new_case_review.py data/synthetic_failure_cases_v1.jsonl data/new_case_domain_review_v1.csv --check NEW_CASE_REVIEW_WORKSHEET.md
 python src/generate_evidence_report.py
 python -m unittest discover -s tests -v
 ```
