@@ -40,6 +40,7 @@ class EvidenceReportTest(unittest.TestCase):
         self.assertEqual(review["annotated_rows"], 0)
         self.assertEqual(review["total_rows"], 5)
         self.assertTrue(review["content_locked_by_fingerprint"])
+        self.assertTrue(review["privacy_safe_summary_available_when_complete"])
 
     def test_report_is_privacy_safe_and_machine_readable(self):
         report = build_evidence_report(ROOT)

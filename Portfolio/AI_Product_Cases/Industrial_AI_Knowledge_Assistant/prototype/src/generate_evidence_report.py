@@ -87,6 +87,7 @@ def build_evidence_report(root: Path) -> dict:
             "annotated_rows": new_case_annotated_rows,
             "total_rows": len(new_case_review_rows),
             "content_locked_by_fingerprint": True,
+            "privacy_safe_summary_available_when_complete": True,
             "claim_boundary": "The five expansion cases remain synthetic and unreviewed until the strict domain-review gate passes.",
         },
         "safety_boundary": "Synthetic prototype evidence only; not maintenance guidance or production-accuracy evidence.",
