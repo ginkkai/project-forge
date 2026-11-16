@@ -37,12 +37,14 @@ site procedure, and safety requirements.
 - `src/validate_technician_review.py` — validates review data against the frozen fixture
 - `src/validate_new_case_review.py` — validates the five-case review pack and detects case-content drift
 - `src/render_new_case_review.py` — renders and checks the reviewer-facing worksheet against source data
+- `src/summarize_new_case_review.py` — converts a completed five-case review into privacy-safe aggregate evidence
 - `src/summarize_technician_review.py` — converts a completed review into privacy-safe aggregate evidence
 - `src/generate_evidence_report.py` — emits one machine-readable snapshot of dataset, retrieval, and review status
 - `tests/test_knowledge_demo.py` — schema, coverage, and retrieval tests
 - `tests/test_technician_review.py` — review-contract and anti-drift tests
 - `tests/test_new_case_review.py` — expansion-case review, fingerprint, and completeness tests
 - `tests/test_new_case_review_worksheet.py` — worksheet freshness, coverage, blank-state, and privacy tests
+- `tests/test_new_case_review_summary.py` — completeness, correction, fingerprint, and privacy tests for summary output
 - `tests/test_review_summary.py` — summary, flag preservation, completeness, and privacy tests
 - `tests/test_portfolio_case_study.py` — guards published metrics, reproduction paths, and claim boundaries
 - `tests/test_evidence_report.py` — guards evidence metrics, incomplete-review status, and privacy-safe output
@@ -142,6 +144,10 @@ case-content drift. Passing template validation does not mean the cases were rev
 troubleshooting sequence, solution, verification result, safety notes, and blank
 decisions on one reviewer-facing page. It is generated from the JSONL and CSV;
 CI rejects it if either source changes without a matching worksheet update.
+After the strict review gate passes, `summarize_new_case_review.py` emits decision
+counts, yes-rates, correction case IDs, and flagged structured decisions. It
+deliberately excludes free-text notes so proprietary or identifying details are
+not copied into portfolio evidence.
 
 ## Automated verification
 
@@ -162,6 +168,7 @@ without credentials or external services.
 - The evidence snapshot distinguishes 15-case dataset coverage from the frozen 10-case human-review scope.
 - The five expansion cases have a fingerprint-locked domain-review pack whose blank state is reported as incomplete.
 - The reviewer-facing worksheet is generated from source records and fails verification when stale.
+- A completed five-case review can be summarized without copying free-text notes or reviewer identity.
 - The technician review template remains aligned to the frozen stress fixture.
 - A completed review can be summarized into privacy-safe aggregate evidence; incomplete reviews are rejected.
 - One command emits a privacy-safe JSON evidence snapshot without overstating the blank review.

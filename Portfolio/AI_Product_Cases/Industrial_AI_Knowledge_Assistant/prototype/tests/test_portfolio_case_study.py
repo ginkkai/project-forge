@@ -13,7 +13,7 @@ class PortfolioCaseStudyTest(unittest.TestCase):
     def test_metrics_match_versioned_evidence(self):
         self.assertIn("15/15 top-1 (100%)", self.text)
         self.assertIn("6/10 top-1 (60%)", self.text)
-        self.assertIn("47 unit tests", self.text)
+        self.assertIn("52 unit tests", self.text)
 
     def test_expansion_scope_does_not_overstate_human_review(self):
         self.assertIn("15 cases", self.text)
@@ -22,6 +22,7 @@ class PortfolioCaseStudyTest(unittest.TestCase):
         self.assertIn("0/5 annotated", self.text)
         self.assertIn("fingerprint binds every review row", self.text)
         self.assertIn("generated worksheet", self.text)
+        self.assertIn("without copying free-text review", self.text)
 
     def test_claim_boundaries_are_explicit(self):
         self.assertIn("Technician review | Not completed", self.text)
@@ -35,6 +36,7 @@ class PortfolioCaseStudyTest(unittest.TestCase):
             "validate_technician_review.py",
             "validate_new_case_review.py",
             "render_new_case_review.py",
+            "summarize_new_case_review.py",
             "generate_evidence_report.py",
             "technician_query_review_v1.csv",
             "new_case_domain_review_v1.csv",

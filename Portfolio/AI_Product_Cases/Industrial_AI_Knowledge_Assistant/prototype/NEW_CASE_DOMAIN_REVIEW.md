@@ -63,6 +63,18 @@ python src/render_new_case_review.py \
 Use the worksheet to read each complete case without switching between the CSV
 and JSONL. Record decisions in the CSV; the worksheet itself is a generated view.
 
+After the strict gate passes, generate the privacy-safe aggregate summary:
+
+```bash
+python src/summarize_new_case_review.py \
+  data/new_case_domain_review_v1.csv \
+  data/synthetic_failure_cases_v1.jsonl \
+  --output new_case_domain_review_summary_v1.json
+```
+
+The summary includes structured counts, rates, correction case IDs, reviewer
+roles, and dates. It excludes `review_notes` and all personal identity fields.
+
 Until the strict gate passes and corrections are resolved, the five cases must
 remain labelled synthetic and unreviewed. A completed form supports only the
 reviewed fields; it does not establish OEM validation, production accuracy, or
